@@ -70,6 +70,8 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
+  Modelica.Blocks.Sources.RealExpression TestRealExp(y=4)
+    annotation (Placement(transformation(extent={{22,68},{42,88}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -159,6 +161,8 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
+  connect(TestRealExp.y, propsBusInt.TestConnector) annotation (Line(points={{
+          43,78},{50,78},{50,19.91},{56.09,19.91}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),
