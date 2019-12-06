@@ -55,6 +55,9 @@ protected
   Modelica.Blocks.Routing.RealPassThrough IanTest
     "Test of a new connector variable"
     annotation (Placement(transformation(extent={{-12,-224},{8,-204}})));
+//      BaseClasses.Varia.HeatFlowMultiplicator HeatPortTest(k=k)
+//    "Block for scaling test heat port";
+
 equation
   connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
@@ -119,8 +122,8 @@ equation
           128},{100.1,-0.1}},        color={0,0,127}));
   connect(epsSw.y, propsBus_b.epsSw) annotation (Line(points={{11,98},{100.1,98},
           {100.1,-0.1}}, color={0,0,127}));
-  connect(IanTest.u, propsBus_a.TestConnector) annotation (Line(points={{-14,
-          -214},{-58,-214},{-58,0.1},{-100.1,0.1}}, color={0,0,127}));
+  connect(IanTest.u, propsBus_a.TestConnector) annotation (Line(points={{-14,-214},
+          {-58,-214},{-58,0.1},{-100.1,0.1}}, color={0,0,127}));
   connect(IanTest.y, propsBus_b.TestConnector) annotation (Line(points={{9,-214},
           {54,-214},{54,-0.1},{100.1,-0.1}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},

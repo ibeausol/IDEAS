@@ -1,6 +1,7 @@
 within IDEAS.Buildings.Components.Interfaces;
 connector ZoneBus
   extends Modelica.Icons.SignalBus;
+  replaceable package Medium = IDEAS.Media.Air "Air medium";
   parameter Integer numIncAndAziInBus
     "Number of calculated azimuth angles, set to sim.numIncAndAziInBus";
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
@@ -23,6 +24,17 @@ connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector TestConnector(
     final quantity="Emissivity",
     final unit="1") annotation ();
+
+  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a TestHeatPort;
+
+//   Modelica.Fluid.Interfaces.FluidPort_a AFNport_a(
+//     redeclare package Medium = Medium,
+//     m_flow(nominal=0),
+//     h_outflow(nominal=0));
+//   Modelica.Fluid.Interfaces.FluidPort_b AFNport_b(
+//     redeclare package Medium = Medium,
+//     m_flow(nominal=0),
+//     h_outflow(nominal=0));
 
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a surfCon annotation ();

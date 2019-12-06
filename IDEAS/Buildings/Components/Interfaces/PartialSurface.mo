@@ -161,11 +161,15 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(TestRealExp.y, propsBusInt.TestConnector) annotation (Line(points={{
-          43,78},{50,78},{50,19.91},{56.09,19.91}}, color={0,0,127}));
+  connect(TestRealExp.y, propsBusInt.TestConnector) annotation (Line(points={{43,
+          78},{50,78},{50,19.91},{56.09,19.91}}, color={0,0,127}));
+  propsBusInt.TestHeatPort.T = 99;
+  //propsBusInt.TestHeatPort.Q_flow = 89; // Cannot calculate Q_flow here without triggering simulation error.
+  //propsBusInt.TestHeatPort.Q_flow = 3*( propsBusInt.TestHeatPort.T - 10);
+
   annotation (
-    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
-            100,100}})),
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
+            100}})),
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-50,-100},{50,100}})),
     Documentation(revisions="<html>
 <ul>
