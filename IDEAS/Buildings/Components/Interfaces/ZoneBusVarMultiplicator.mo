@@ -58,6 +58,9 @@ protected
 //      BaseClasses.Varia.HeatFlowMultiplicator HeatPortTest(k=k)
 //    "Block for scaling test heat port";
 
+  BaseClasses.Varia.HeatFlowMultiplicator TestHeatPortScaling(k=1)
+    "Block for scaling"
+    annotation (Placement(transformation(extent={{176,46},{196,66}})));
 equation
   connect(QTra_desgin.u, propsBus_a.QTra_design) annotation (Line(points={{-12,188},
           {-100.1,188},{-100.1,0.1}},         color={0,0,127}));
@@ -126,6 +129,12 @@ equation
           {-58,-214},{-58,0.1},{-100.1,0.1}}, color={0,0,127}));
   connect(IanTest.y, propsBus_b.TestConnector) annotation (Line(points={{9,-214},
           {54,-214},{54,-0.1},{100.1,-0.1}}, color={0,0,127}));
+  connect(propsBus_a.TestHeatPort, TestHeatPortScaling.port_a) annotation (Line(
+      points={{-100.1,0.1},{38,0.1},{38,56},{176,56}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(TestHeatPortScaling.port_b, propsBus_b.TestHeatPort) annotation (Line(
+        points={{196,56},{150,56},{150,-0.1},{100.1,-0.1}}, color={191,0,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={
         Polygon(

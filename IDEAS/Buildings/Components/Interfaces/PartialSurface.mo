@@ -72,6 +72,10 @@ partial model PartialSurface "Partial model for building envelope component"
 
   Modelica.Blocks.Sources.RealExpression TestRealExp(y=4)
     annotation (Placement(transformation(extent={{22,68},{42,88}})));
+  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow TestPrescribedHeatFlow
+    annotation (Placement(transformation(extent={{-12,50},{8,70}})));
+  Modelica.Blocks.Sources.RealExpression TestImposeHeatFlow(y=100)
+    annotation (Placement(transformation(extent={{-56,50},{-36,70}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -163,10 +167,13 @@ equation
       thickness=0.5));
   connect(TestRealExp.y, propsBusInt.TestConnector) annotation (Line(points={{43,
           78},{50,78},{50,19.91},{56.09,19.91}}, color={0,0,127}));
-  propsBusInt.TestHeatPort.T = 99;
   //propsBusInt.TestHeatPort.Q_flow = 89; // Cannot calculate Q_flow here without triggering simulation error.
   //propsBusInt.TestHeatPort.Q_flow = 3*( propsBusInt.TestHeatPort.T - 10);
 
+  connect(TestImposeHeatFlow.y, TestPrescribedHeatFlow.Q_flow)
+    annotation (Line(points={{-35,60},{-12,60}}, color={0,0,127}));
+  connect(TestPrescribedHeatFlow.port, propsBusInt.TestHeatPort) annotation (
+      Line(points={{8,60},{30,60},{30,19.91},{56.09,19.91}}, color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
