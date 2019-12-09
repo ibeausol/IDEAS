@@ -74,7 +74,8 @@ partial model PartialSurface "Partial model for building envelope component"
     annotation (Placement(transformation(extent={{22,68},{42,88}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow TestPrescribedHeatFlow
     annotation (Placement(transformation(extent={{-12,50},{8,70}})));
-  Modelica.Blocks.Sources.RealExpression TestImposeHeatFlow(y=100)
+  Modelica.Blocks.Sources.RealExpression TestImposeHeatFlow(y=10*(intCon_a.port_b.T
+         - propsBus_a.TestHeatPort.T))
     annotation (Placement(transformation(extent={{-56,50},{-36,70}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
