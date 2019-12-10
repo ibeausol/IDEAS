@@ -13,27 +13,13 @@ model Zone "Building zone model"
         extent={{-20,20},{20,-20}},
         rotation=-90,
         origin={-100,40})));
-  IDEAS.Fluid.Sources.Boundary_pT ForTesting1(redeclare package Medium = Media.Air,
-    p=120000,  nPorts=nSurf)
-    annotation (Placement(transformation(extent={{-206,64},{-186,84}})));
 
-  Fluid.Sources.Boundary_pT       ForTesting2(
-    redeclare package Medium = Media.Air,
-    p=120000,
-    nPorts=nSurf)
-    annotation (Placement(transformation(extent={{-206,26},{-186,46}})));
 equation
   connect(propsBus, propsBusInt) annotation (Line(
       points={{-100,40},{-90,40},{-80,40}},
       color={255,204,51},
       thickness=0.5));
 
-  for i in 1:nSurf loop
-    connect(ForTesting1.ports[i], propsBus[i].AFNport_low) annotation (Line(
-          points={{-186,74},{-146,74},{-146,39.9},{-100.1,39.9}}, color={0,127,255}));
-    connect(ForTesting2.ports[i], propsBus[i].AFNport_high) annotation (Line(points={{
-            -186,36},{-146,36},{-146,39.9},{-100.1,39.9}}, color={0,127,255}));
-  end for;
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
         graphics={Text(
