@@ -17,9 +17,12 @@ model ZoneBusVarMultiplicator "Component to scale all flows from the zone propsB
   outer BoundaryConditions.SimInfoManager       sim
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{72,122},{92,142}})));
-  Fluid.BaseClasses.MassFlowRateMultiplier massFlowRateMultiplier(redeclare
-      package Medium = Media.Air, k=1)
-    annotation (Placement(transformation(extent={{178,116},{198,136}})));
+  Fluid.BaseClasses.MassFlowRateMultiplier AFNport_low(redeclare package Medium
+      = Media.Air, k=1)
+    annotation (Placement(transformation(extent={{-10,-206},{10,-186}})));
+  Fluid.BaseClasses.MassFlowRateMultiplier AFNport_high(redeclare package
+      Medium = Media.Air, k=1)
+    annotation (Placement(transformation(extent={{-10,-238},{10,-218}})));
 protected
   Modelica.Blocks.Math.Gain QTra_desgin(k=k) "Design heat flow rate"
     annotation (Placement(transformation(extent={{-10,178},{10,198}})));
@@ -120,14 +123,21 @@ equation
           128},{100.1,-0.1}},        color={0,0,127}));
   connect(epsSw.y, propsBus_b.epsSw) annotation (Line(points={{11,98},{100.1,98},
           {100.1,-0.1}}, color={0,0,127}));
-  connect(propsBus_a.AFNport_low, massFlowRateMultiplier.port_a) annotation (Line(
-      points={{-100.1,0.1},{42,0.1},{42,126},{178,126}},
+  connect(propsBus_a.AFNport_low, AFNport_low.port_a) annotation (Line(
+      points={{-100.1,0.1},{-100.1,0},{-100,0},{-100,-196},{-10,-196}},
       color={255,204,51},
       thickness=0.5));
-  connect(massFlowRateMultiplier.port_b, propsBus_b.AFNport_low) annotation (Line(
-        points={{198,126},{150,126},{150,-0.1},{100.1,-0.1}}, color={0,127,255}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
-            {100,200}}), graphics={
+  connect(AFNport_low.port_b, propsBus_b.AFNport_low) annotation (Line(points={
+          {10,-196},{100,-196},{100,0},{100.1,0},{100.1,-0.1}}, color={0,127,
+          255}));
+  connect(AFNport_high.port_a, propsBus_a.AFNport_high) annotation (Line(points
+        ={{-10,-228},{-100,-228},{-100,-14},{-100.1,-14},{-100.1,0.1}}, color={
+          0,127,255}));
+  connect(AFNport_high.port_b, propsBus_b.AFNport_high) annotation (Line(points
+        ={{10,-228},{100,-228},{100,-0.1},{100.1,-0.1}}, color={0,127,255}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -260},{100,200}}),
+                         graphics={
         Polygon(
           points={{-100,120},{102,-2},{-100,-120},{-100,120}},
           lineColor={255,215,136},
@@ -146,7 +156,8 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="%name")}),                                 Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},{100,200}})),
+        coordinateSystem(preserveAspectRatio=false, extent={{-100,-260},{100,
+            200}})),
     Documentation(revisions="<html>
 <ul>
 <li>

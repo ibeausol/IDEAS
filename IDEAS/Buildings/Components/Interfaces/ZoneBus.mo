@@ -18,17 +18,10 @@ connector ZoneBus
   IDEAS.Buildings.Components.Interfaces.RealConnector epsSw(
     final quantity="Emissivity",
     final unit="1") annotation ();
-
-
-
    Modelica.Fluid.Interfaces.FluidPort_a AFNport_low(
      redeclare package Medium = Medium);
-//   Modelica.Fluid.Interfaces.FluidPort_b AFNport_b(
-//     redeclare package Medium = Medium,
-//     m_flow(nominal=0),
-//     h_outflow(nominal=0));
-
-
+   Modelica.Fluid.Interfaces.FluidPort_a AFNport_high(
+     redeclare package Medium = Medium);
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a surfCon annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b surfRad annotation ();
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a iSolDir annotation ();

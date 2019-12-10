@@ -70,11 +70,16 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  IDEAS.Fluid.Sources.MassFlowSource_T FixFlowAndT(
+  IDEAS.Fluid.Sources.MassFlowSource_T ForTesting1(
     redeclare package Medium = Media.Air,
     m_flow=0.4,
     T=308.15,
-    nPorts=1) annotation (Placement(transformation(extent={{-58,16},{-38,36}})));
+    nPorts=1) annotation (Placement(transformation(extent={{-58,72},{-38,92}})));
+  Fluid.Sources.MassFlowSource_T       ForTesting2(
+    redeclare package Medium = Media.Air,
+    m_flow=0.25,
+    T=318.15,
+    nPorts=1) annotation (Placement(transformation(extent={{-58,42},{-38,62}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -157,16 +162,18 @@ equation
   connect(incExp.y, propsBusInt.inc);
   connect(aziExp.y, propsBusInt.azi);
   connect(propsBus_a, gain.propsBus_b) annotation (Line(
-      points={{100,20},{94,20},{94,20.2105},{88,20.2105}},
+      points={{100,20},{94,20},{94,22.9565},{88,22.9565}},
       color={255,204,51},
       thickness=0.5));
   connect(gain.propsBus_a, propsBusInt) annotation (Line(
-      points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
+      points={{70,22.9565},{60,22.9565},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
 
-  connect(FixFlowAndT.ports[1], propsBusInt.AFNport_low) annotation (Line(points={{-38,26},
-          {-4,26},{-4,19.91},{56.09,19.91}},          color={0,127,255}));
+  connect(ForTesting1.ports[1], propsBusInt.AFNport_low) annotation (Line(points={{-38,82},
+          {50,82},{50,19.91},{56.09,19.91}},          color={0,127,255}));
+  connect(ForTesting2.ports[1], propsBusInt.AFNport_high) annotation (Line(
+        points={{-38,52},{50,52},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
