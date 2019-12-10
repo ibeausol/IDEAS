@@ -5,8 +5,6 @@ connector ZoneBus
   parameter Integer numIncAndAziInBus
     "Number of calculated azimuth angles, set to sim.numIncAndAziInBus";
   parameter Boolean outputAngles = true "Set to false when linearising in Dymola only";
-  parameter Integer IanTestParameter=7;  // Testing
-
 
   IDEAS.Buildings.Components.Interfaces.RealConnector QTra_design(
     final quantity="Power",
@@ -21,11 +19,6 @@ connector ZoneBus
     final quantity="Emissivity",
     final unit="1") annotation ();
 
-  IDEAS.Buildings.Components.Interfaces.RealConnector TestConnector(
-    final quantity="Emissivity",
-    final unit="1") annotation ();
-
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a TestHeatPort;
 
 
    Modelica.Fluid.Interfaces.FluidPort_a AFNport_a(
@@ -54,10 +47,6 @@ connector ZoneBus
     final quantity="Angle",
     final unit="rad",
     displayUnit="deg") annotation ();
-
-   // Modelica.Fluid.Interfaces.FluidPorts_a AFN_infil  annotation ();
-   // Modelica.Fluid.Interfaces.FluidPorts_b AFN_exfil  annotation ();
-
   annotation (Documentation(info="<html>
 <p>
 Connector that contains a weather bus and further

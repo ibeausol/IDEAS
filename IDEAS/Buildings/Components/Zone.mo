@@ -13,10 +13,6 @@ model Zone "Building zone model"
         extent={{-20,20},{20,-20}},
         rotation=-90,
         origin={-100,40})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature TestPrescribedTemperature
-    annotation (Placement(transformation(extent={{-146,-46},{-126,-26}})));
-  Modelica.Blocks.Sources.RealExpression TestFixTemperature(y=299)
-    annotation (Placement(transformation(extent={{-174,14},{-154,34}})));
   IDEAS.Fluid.Sources.Boundary_pT FixPressure(redeclare package Medium = Media.Air, p=
        120000, nPorts=nSurf)
     annotation (Placement(transformation(extent={{-206,64},{-186,84}})));
@@ -26,13 +22,6 @@ equation
       color={255,204,51},
       thickness=0.5));
 
-  connect(TestFixTemperature.y, TestPrescribedTemperature.T) annotation (Line(
-        points={{-153,24},{-150,24},{-150,-36},{-148,-36}}, color={0,0,127}));
-  for i in 1:nSurf loop
-    connect(TestPrescribedTemperature.port, propsBusInt[i].TestHeatPort)
-      annotation (Line(points={{-126,-36},{-104,-36},{-104,39.9},{-80.1,39.9}},
-          color={191,0,0}));
-  end for;
   for i in 1:nSurf loop
     connect(FixPressure.ports[i], propsBus[i].AFNport_a) annotation (Line(points={{-186,
             74},{-146,74},{-146,39.9},{-100.1,39.9}}, color={0,127,255}));

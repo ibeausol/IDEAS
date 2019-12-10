@@ -70,13 +70,6 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  Modelica.Blocks.Sources.RealExpression TestRealExp(y=4)
-    annotation (Placement(transformation(extent={{22,68},{42,88}})));
-  Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow TestPrescribedHeatFlow
-    annotation (Placement(transformation(extent={{-12,50},{8,70}})));
-  Modelica.Blocks.Sources.RealExpression TestImposeHeatFlow(y=10*(intCon_a.port_b.T
-         - propsBus_a.TestHeatPort.T))
-    annotation (Placement(transformation(extent={{-56,50},{-36,70}})));
   IDEAS.Fluid.Sources.MassFlowSource_T FixFlowAndT(
     redeclare package Medium = Media.Air,
     m_flow=0.4,
@@ -171,13 +164,7 @@ equation
       points={{70,20.2105},{60,20.2105},{60,20},{56,20}},
       color={255,204,51},
       thickness=0.5));
-  connect(TestRealExp.y, propsBusInt.TestConnector) annotation (Line(points={{43,
-          78},{50,78},{50,19.91},{56.09,19.91}}, color={0,0,127}));
 
-  connect(TestImposeHeatFlow.y, TestPrescribedHeatFlow.Q_flow)
-    annotation (Line(points={{-35,60},{-12,60}}, color={0,0,127}));
-  connect(TestPrescribedHeatFlow.port, propsBusInt.TestHeatPort) annotation (
-      Line(points={{8,60},{30,60},{30,19.91},{56.09,19.91}}, color={191,0,0}));
   connect(FixFlowAndT.ports[1], propsBusInt.AFNport_a) annotation (Line(points={
           {-38,26},{-4,26},{-4,19.91},{56.09,19.91}}, color={0,127,255}));
   annotation (
