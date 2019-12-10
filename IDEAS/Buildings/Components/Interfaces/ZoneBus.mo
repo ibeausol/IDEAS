@@ -27,10 +27,9 @@ connector ZoneBus
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a TestHeatPort;
 
-//   Modelica.Fluid.Interfaces.FluidPort_a AFNport_a(
-//     redeclare package Medium = Medium,
-//     m_flow(nominal=0),
-//     h_outflow(nominal=0));
+
+   Modelica.Fluid.Interfaces.FluidPort_a AFNport_a(
+     redeclare package Medium = Medium);
 //   Modelica.Fluid.Interfaces.FluidPort_b AFNport_b(
 //     redeclare package Medium = Medium,
 //     m_flow(nominal=0),

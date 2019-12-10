@@ -17,6 +17,9 @@ model Zone "Building zone model"
     annotation (Placement(transformation(extent={{-146,-46},{-126,-26}})));
   Modelica.Blocks.Sources.RealExpression TestFixTemperature(y=299)
     annotation (Placement(transformation(extent={{-174,14},{-154,34}})));
+  IDEAS.Fluid.Sources.Boundary_pT FixPressure(redeclare package Medium = Media.Air, p=
+       120000, nPorts=nSurf)
+    annotation (Placement(transformation(extent={{-206,64},{-186,84}})));
 equation
   connect(propsBus, propsBusInt) annotation (Line(
       points={{-100,40},{-90,40},{-80,40}},
@@ -30,9 +33,14 @@ equation
       annotation (Line(points={{-126,-36},{-104,-36},{-104,39.9},{-80.1,39.9}},
           color={191,0,0}));
   end for;
+  for i in 1:nSurf loop
+    connect(FixPressure.ports[i], propsBus[i].AFNport_a) annotation (Line(points={{-186,
+            74},{-146,74},{-146,39.9},{-100.1,39.9}}, color={0,127,255}));
+
+  end for;
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-         graphics={Text(
+        graphics={Text(
           extent={{-64,68},{-28,18}},
           lineColor={255,215,136},
           textString="%nSurf")}),
