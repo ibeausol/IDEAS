@@ -165,8 +165,8 @@ equation
       color={255,204,51},
       thickness=0.5));
 
-  connect(FixFlowAndT.ports[1], propsBusInt.AFNport_a) annotation (Line(points={
-          {-38,26},{-4,26},{-4,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(FixFlowAndT.ports[1], propsBusInt.AFNport_low) annotation (Line(points={{-38,26},
+          {-4,26},{-4,19.91},{56.09,19.91}},          color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),

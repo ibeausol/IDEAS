@@ -23,8 +23,8 @@ equation
       thickness=0.5));
 
   for i in 1:nSurf loop
-    connect(FixPressure.ports[i], propsBus[i].AFNport_a) annotation (Line(points={{-186,
-            74},{-146,74},{-146,39.9},{-100.1,39.9}}, color={0,127,255}));
+    connect(FixPressure.ports[i], propsBus[i].AFNport_low) annotation (Line(points={{-186,74},
+            {-146,74},{-146,39.9},{-100.1,39.9}},     color={0,127,255}));
 
   end for;
   annotation (

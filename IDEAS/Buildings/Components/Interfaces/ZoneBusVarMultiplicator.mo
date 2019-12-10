@@ -120,11 +120,11 @@ equation
           128},{100.1,-0.1}},        color={0,0,127}));
   connect(epsSw.y, propsBus_b.epsSw) annotation (Line(points={{11,98},{100.1,98},
           {100.1,-0.1}}, color={0,0,127}));
-  connect(propsBus_a.AFNport_a, massFlowRateMultiplier.port_a) annotation (Line(
+  connect(propsBus_a.AFNport_low, massFlowRateMultiplier.port_a) annotation (Line(
       points={{-100.1,0.1},{42,0.1},{42,126},{178,126}},
       color={255,204,51},
       thickness=0.5));
-  connect(massFlowRateMultiplier.port_b, propsBus_b.AFNport_a) annotation (Line(
+  connect(massFlowRateMultiplier.port_b, propsBus_b.AFNport_low) annotation (Line(
         points={{198,126},{150,126},{150,-0.1},{100.1,-0.1}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-180},
             {100,200}}), graphics={

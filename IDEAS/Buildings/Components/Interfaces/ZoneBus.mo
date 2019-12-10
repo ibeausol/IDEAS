@@ -21,7 +21,7 @@ connector ZoneBus
 
 
 
-   Modelica.Fluid.Interfaces.FluidPort_a AFNport_a(
+   Modelica.Fluid.Interfaces.FluidPort_a AFNport_low(
      redeclare package Medium = Medium);
 //   Modelica.Fluid.Interfaces.FluidPort_b AFNport_b(
 //     redeclare package Medium = Medium,
