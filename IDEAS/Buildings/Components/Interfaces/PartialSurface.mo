@@ -72,13 +72,13 @@ partial model PartialSurface "Partial model for building envelope component"
 
   IDEAS.Fluid.Sources.MassFlowSource_T ForTesting1(
     redeclare package Medium = Media.Air,
-    m_flow=0.005,
-    T=283.15,
+    m_flow=0,
+    T=308.15,
     nPorts=1) annotation (Placement(transformation(extent={{-58,72},{-38,92}})));
   Fluid.Sources.MassFlowSource_T       ForTesting2(
     redeclare package Medium = Media.Air,
-    m_flow=-0.005,
-    T=278.15,
+    m_flow=0,
+    T=318.15,
     nPorts=1) annotation (Placement(transformation(extent={{-58,42},{-38,62}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
