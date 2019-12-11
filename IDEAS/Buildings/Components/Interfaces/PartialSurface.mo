@@ -70,19 +70,24 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  Fluid.Sources.MassFlowSource_T       ForTesting2(
-    redeclare package Medium = Media.Air,
-    m_flow=-0.005,
-    T=318.15,
-    nPorts=1) annotation (Placement(transformation(extent={{-58,42},{-38,62}})));
   Airflow.Multizone.Orifice orifice(
     redeclare package Medium = Media.Air,
     m=0.68,
-    A=0.001,
+    A=0.0001,
     CD=0.65) annotation (Placement(transformation(extent={{-2,74},{18,94}})));
   Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Media.Air,
       nPorts=1)
     annotation (Placement(transformation(extent={{-58,74},{-38,94}})));
+  Airflow.Multizone.Orifice orifice1(
+    redeclare package Medium = Media.Air,
+    m=0.68,
+    A=0.001,
+    CD=0.65) annotation (Placement(transformation(extent={{-8,38},{12,58}})));
+  Fluid.Sources.Boundary_pT bou(
+    redeclare package Medium = Media.Air,
+    p=99000,
+    T=273.15,
+    nPorts=1) annotation (Placement(transformation(extent={{-62,38},{-42,58}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -173,12 +178,14 @@ equation
       color={255,204,51},
       thickness=0.5));
 
-  connect(ForTesting2.ports[1], propsBusInt.AFNport_high) annotation (Line(
-        points={{-38,52},{50,52},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(orifice.port_b, propsBusInt.AFNport_low) annotation (Line(points={{18,
           84},{36,84},{36,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(outsideAir.ports[1], orifice.port_a)
     annotation (Line(points={{-38,84},{-2,84}}, color={0,127,255}));
+  connect(orifice1.port_b, propsBusInt.AFNport_high) annotation (Line(points={{
+          12,48},{34,48},{34,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(bou.ports[1], orifice1.port_a)
+    annotation (Line(points={{-42,48},{-8,48}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
