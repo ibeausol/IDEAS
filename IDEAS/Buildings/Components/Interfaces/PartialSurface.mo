@@ -80,11 +80,9 @@ partial model PartialSurface "Partial model for building envelope component"
     m=0.68,
     A=0.001,
     CD=0.65) annotation (Placement(transformation(extent={{-2,74},{18,94}})));
-  Fluid.Sources.Boundary_pT bou(
-    redeclare package Medium = Media.Air,
-    p=100000,
-    T=283.15,
-    nPorts=1) annotation (Placement(transformation(extent={{-58,78},{-38,98}})));
+  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Media.Air,
+      nPorts=1)
+    annotation (Placement(transformation(extent={{-58,74},{-38,94}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -179,8 +177,8 @@ equation
         points={{-38,52},{50,52},{50,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(orifice.port_b, propsBusInt.AFNport_low) annotation (Line(points={{18,
           84},{36,84},{36,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(bou.ports[1], orifice.port_a) annotation (Line(points={{-38,88},{-20,
-          88},{-20,84},{-2,84}}, color={0,127,255}));
+  connect(outsideAir.ports[1], orifice.port_a)
+    annotation (Line(points={{-38,84},{-2,84}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
