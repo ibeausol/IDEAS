@@ -70,16 +70,21 @@ partial model PartialSurface "Partial model for building envelope component"
     "Multilayer component for simulating walls, windows and other surfaces"
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
-  IDEAS.Fluid.Sources.MassFlowSource_T ForTesting1(
-    redeclare package Medium = Media.Air,
-    m_flow=0,
-    T=308.15,
-    nPorts=1) annotation (Placement(transformation(extent={{-58,72},{-38,92}})));
   Fluid.Sources.MassFlowSource_T       ForTesting2(
     redeclare package Medium = Media.Air,
-    m_flow=0,
+    m_flow=-0.005,
     T=318.15,
     nPorts=1) annotation (Placement(transformation(extent={{-58,42},{-38,62}})));
+  Airflow.Multizone.Orifice orifice(
+    redeclare package Medium = Media.Air,
+    m=0.68,
+    A=0.001,
+    CD=0.65) annotation (Placement(transformation(extent={{-2,74},{18,94}})));
+  Fluid.Sources.Boundary_pT bou(
+    redeclare package Medium = Media.Air,
+    p=100000,
+    T=283.15,
+    nPorts=1) annotation (Placement(transformation(extent={{-58,78},{-38,98}})));
 protected
   final parameter Modelica.SIunits.Angle aziInt=
     if aziOpt==5
@@ -170,10 +175,12 @@ equation
       color={255,204,51},
       thickness=0.5));
 
-  connect(ForTesting1.ports[1], propsBusInt.AFNport_low) annotation (Line(points={{-38,82},
-          {50,82},{50,19.91},{56.09,19.91}},          color={0,127,255}));
   connect(ForTesting2.ports[1], propsBusInt.AFNport_high) annotation (Line(
         points={{-38,52},{50,52},{50,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(orifice.port_b, propsBusInt.AFNport_low) annotation (Line(points={{18,
+          84},{36,84},{36,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(bou.ports[1], orifice.port_a) annotation (Line(points={{-38,88},{-20,
+          88},{-20,84},{-2,84}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
