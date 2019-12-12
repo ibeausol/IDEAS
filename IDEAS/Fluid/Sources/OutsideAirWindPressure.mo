@@ -25,7 +25,6 @@ protected
     "Connector for X_wEnv";
   Modelica.Blocks.Routing.RealPassThrough p_link;
   Modelica.Blocks.Routing.RealPassThrough pSurf;
-  Modelica.SIunits.Pressure pAtmPlusWind;
   Real Cp;
   Real Vwind;
 equation
@@ -39,9 +38,8 @@ equation
           // Need to set G as a parameter.
                                          // Need to set incAng as a parameter: surface inc and Vdir.
   Vwind = 0;
-  pAtmPlusWind = p_link.y + Cp*0.5*1.2*Vwind^2;  // Need to set Vwind as a parameter.
+  pSurf.u = p_link.y + Cp*0.5*1.2*Vwind^2;  // Need to set Vwind as a parameter.
 
-  pSurf.u = pAtmPlusWind;
   connect(pSurf.y, p_in_internal);
 
   // must use sim.weaBus.Te for linearisation
