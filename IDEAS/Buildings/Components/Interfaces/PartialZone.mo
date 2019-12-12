@@ -385,9 +385,7 @@ end for;
     annotation (Line(points={{-36,40},{-36,60}}, color={0,127,255}));
   connect(airModel.port_a, interzonalAirFlow.port_b_interior)
     annotation (Line(points={{-24,40},{-24,60}}, color={0,127,255}));
-  connect(interzonalAirFlow.ports[1], airModel.ports[1]) annotation (Line(
-        points={{-29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
-  connect(interzonalAirFlow.ports[2], airModel.ports[2]) annotation (Line(
+  connect(interzonalAirFlow.ports[1:interzonalAirFlow.nPorts], airModel.ports[1:interzonalAirFlow.nPorts]) annotation (Line(
         points={{-29.8,60},{-30,60},{-30,40}}, color={0,127,255}));
   connect(interzonalAirFlow.port_b_exterior, port_b) annotation (Line(points={{
           -32,80},{-32,92},{-20,92},{-20,100}}, color={0,127,255}));
@@ -401,13 +399,13 @@ end for;
           -30},{100,-30}}, color={191,0,0}));
   connect(ligCtr.ctrl, intGaiLig.ctrl)
     annotation (Line(points={{58,62},{41,62}}, color={0,0,127}));
-  connect(propsBusInt[1:nSurf].AFNport_low, airModel.ports[3:nSurf + 2])
-    annotation (Line(
+  connect(propsBusInt[1:nSurf].AFNport_low, airModel.ports[interzonalAirFlow.nPorts
+     + 1:interzonalAirFlow.nPorts + nSurf]) annotation (Line(
       points={{-80.1,39.9},{-56,39.9},{-56,40},{-30,40}},
       color={255,204,51},
       thickness=0.5));
-  connect(propsBusInt[1:nSurf].AFNport_high, airModel.ports[nSurf + 3:nSurf +
-    nSurf + 2]) annotation (Line(
+  connect(propsBusInt[1:nSurf].AFNport_high, airModel.ports[interzonalAirFlow.nPorts
+     + nSurf + 1:nSurf + nSurf + 2]) annotation (Line(
       points={{-80.1,39.9},{-56,39.9},{-56,40},{-30,40}},
       color={255,204,51},
       thickness=0.5));
