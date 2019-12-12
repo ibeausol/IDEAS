@@ -75,7 +75,9 @@ partial model PartialSurface "Partial model for building envelope component"
     m=0.68,
     A=0.0001,
     CD=0.65) annotation (Placement(transformation(extent={{-2,74},{18,94}})));
-  Fluid.Sources.OutsideAir outsideAir(redeclare package Medium = Media.Air,
+  Fluid.Sources.OutsideAirWindPressure
+                           outsideAirWindPressure(
+                                      redeclare package Medium = Media.Air,
       nPorts=1)
     annotation (Placement(transformation(extent={{-58,74},{-38,94}})));
   Airflow.Multizone.Orifice orifice1(
@@ -180,7 +182,7 @@ equation
 
   connect(orifice.port_b, propsBusInt.AFNport_low) annotation (Line(points={{18,
           84},{36,84},{36,19.91},{56.09,19.91}}, color={0,127,255}));
-  connect(outsideAir.ports[1], orifice.port_a)
+  connect(outsideAirWindPressure.ports[1], orifice.port_a)
     annotation (Line(points={{-38,84},{-2,84}}, color={0,127,255}));
   connect(orifice1.port_b, propsBusInt.AFNport_high) annotation (Line(points={{
           12,48},{34,48},{34,19.91},{56.09,19.91}}, color={0,127,255}));

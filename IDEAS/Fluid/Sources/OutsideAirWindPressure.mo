@@ -24,12 +24,25 @@ protected
   Modelica.Blocks.Interfaces.RealInput X_wEnv
     "Connector for X_wEnv";
   Modelica.Blocks.Routing.RealPassThrough p_link;
-
+  Modelica.Blocks.Routing.RealPassThrough pSurf;
+  Modelica.SIunits.Pressure pAtmPlusWind;
+  Real Cp;
+  Real Vwind;
 equation
   connect(bus,sim.weaDatBus);
 
   connect(p_link.u, bus.pAtm);
-  connect(p_link.y,p_in_internal);
+  Cp = IDEAS.Airflow.Multizone.BaseClasses.windPressureLowRise(
+    Cp0=0.6,
+    G=0,
+    incAng=0.25*Modelica.Constants.pi);
+          // Need to set G as a parameter.
+                                         // Need to set incAng as a parameter: surface inc and Vdir.
+  Vwind = 0;
+  pAtmPlusWind = p_link.y + Cp*0.5*1.2*Vwind^2;  // Need to set Vwind as a parameter.
+
+  pSurf.u = pAtmPlusWind;
+  connect(pSurf.y, p_in_internal);
 
   // must use sim.weaBus.Te for linearisation
   T_in_internal = sim.weaBus.Te;
