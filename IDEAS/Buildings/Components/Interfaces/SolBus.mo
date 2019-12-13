@@ -7,6 +7,9 @@ connector SolBus
   IDEAS.Buildings.Components.Interfaces.RealConnector HSkyDifTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector HGroDifTil(unit="W/(m2)",start=100) annotation ();
   IDEAS.Buildings.Components.Interfaces.RealConnector hForcedConExt(unit="W/(m2.K)",start=10) "Coefficient for forced convection at exterior surface" annotation ();
+  IDEAS.Buildings.Components.Interfaces.RealConnector Cp(unit="", start=0.5)
+    "Wind-driven pressure coefficient" annotation ();
+
   IDEAS.Buildings.Components.Interfaces.RealConnector angInc(
     final quantity="Angle",
     final unit="rad",

@@ -58,6 +58,8 @@ model RadSol "Block that computes surface-dependent environment data"
         extent={{20,-20},{-20,20}},
         rotation=90,
         origin={-20,120})));
+  IDEAS.Airflow.Multizone.BaseClasses.CalcCp calcCp(final inc=inc, final azi=
+        azi) annotation (Placement(transformation(extent={{72,74},{92,94}})));
 protected
   SolarIrradiation.BaseClasses.DirectTiltedSurface
                         solDirTil
@@ -120,6 +122,12 @@ equation
     annotation (Line(points={{18,74},{-60,74},{-60,120}}, color={0,0,127}));
   connect(extConvCoeff.winDir, winDir)
     annotation (Line(points={{18,66},{-20,66},{-20,120}}, color={0,0,127}));
+  connect(calcCp.winSpe, winSpe) annotation (Line(points={{70,88},{56,88},{56,96},
+          {-60,96},{-60,120}}, color={0,0,127}));
+  connect(calcCp.winDir, winDir) annotation (Line(points={{70,80},{48,80},{48,88},
+          {-20,88},{-20,120}}, color={0,0,127}));
+  connect(calcCp.Cp, solBus.Cp) annotation (Line(points={{93,84.6},{93,42.3},{100.1,
+          42.3},{100.1,0.1}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),  Icon(coordinateSystem(extent={{-100,-120},{100,
             100}}),                   graphics={
