@@ -359,6 +359,8 @@ equation
     annotation (Line(points={{170,46},{128,46}},color={0,127,255}));
 
 
+  connect(radSolData.Cp, outsideAirWindPressure.Cp) annotation (Line(points={{
+          -81.2727,-58.4615},{50,-58.4615},{50,90.8},{78,90.8}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={

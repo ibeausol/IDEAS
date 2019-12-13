@@ -52,7 +52,7 @@ model OuterWall "Opaque building envelope construction"
     redeclare package Medium = Media.Air,
     p=99000,
     T=273.15,
-    nPorts=1) annotation (Placement(transformation(extent={{-62,38},{-42,58}})));
+    nPorts=1) annotation (Placement(transformation(extent={{-58,46},{-38,66}})));
 
 
 
@@ -181,10 +181,14 @@ equation
   connect(orifice1.port_b, propsBusInt.AFNport_high) annotation (Line(points={{12,
           48},{34,48},{34,19.91},{56.09,19.91}}, color={0,127,255}));
   connect(bou.ports[1], orifice1.port_a)
-    annotation (Line(points={{-42,48},{-8,48}}, color={0,127,255}));
+    annotation (Line(points={{-38,56},{-26,56},{-26,48},{-8,48}},
+                                                color={0,127,255}));
 
 
 
+  connect(radSolData.Cp, outsideAirWindPressure.Cp) annotation (Line(points={{
+          -81.2727,-4.46154},{-81.2727,42},{-80,42},{-80,86},{-60,86},{-60,84.8}},
+        color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
