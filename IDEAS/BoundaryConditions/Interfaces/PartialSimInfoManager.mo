@@ -151,6 +151,7 @@ partial model PartialSimInfoManager
     "Model internal energy"
     annotation (Placement(transformation(extent={{-10,-110},{10,-90}})));
 
+
   Modelica.Blocks.Sources.RealExpression CEnv(y=ppmCO2*MMFraction/1e6)
     "Concentration of trace substance in surroundings"
     annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
@@ -169,6 +170,9 @@ partial model PartialSimInfoManager
         rotation=270,
         origin={99,3.55271e-015})));
 
+//   Buildings.Components.BaseClasses.Varia.BldgSurfArea SumEnvelopArea
+//     "Port for summing up total area of building envelope"
+//     annotation (Placement(transformation(extent={{18,-110},{38,-90}})));
 protected
   final parameter Integer yr=2014 "depcited year for DST only";
 
