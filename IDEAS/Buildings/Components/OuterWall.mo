@@ -1,49 +1,68 @@
 within IDEAS.Buildings.Components;
 model OuterWall "Opaque building envelope construction"
-   extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
-     final nWin=1,
-     dT_nominal_a=-3,
-     QTra_design(fixed=false));
+  extends IDEAS.Buildings.Components.Interfaces.PartialOpaqueSurface(
+    final nWin=1,
+    dT_nominal_a=-3,
+    QTra_design(fixed=false));
 
   parameter Boolean linExtCon=sim.linExtCon
     "= true, if exterior convective heat transfer should be linearised (uses average wind speed)"
-    annotation(Dialog(tab="Convection"));
+    annotation (Dialog(tab="Convection"));
   parameter Boolean linExtRad=sim.linExtRad
     "= true, if exterior radiative heat transfer should be linearised"
-    annotation(Dialog(tab="Radiation"));
-  parameter Boolean hasBuildingShade = false
+    annotation (Dialog(tab="Radiation"));
+  parameter Boolean hasBuildingShade=false
     "=true, to enable computation of shade cast by opposite building or object"
-    annotation(Dialog(group="Building shade"));
-  parameter Modelica.SIunits.Length L(min=0)=0
+    annotation (Dialog(group="Building shade"));
+  parameter Modelica.SIunits.Length L(min=0) = 0
     "Distance between object and wall, perpendicular to wall"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
-  parameter Modelica.SIunits.Length dh(min=-hWal)=0
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.SIunits.Length dh(min=-hWal) = 0
     "Height difference between top of object and top of wall"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
-  parameter Modelica.SIunits.Length hWal(min=0)=0 "Wall height"
-    annotation(Dialog(group="Building shade",enable=hasBuildingShade));
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
+  parameter Modelica.SIunits.Length hWal(min=0) = 0 "Wall height"
+    annotation (Dialog(group="Building shade", enable=hasBuildingShade));
   final parameter Real U_value=1/(1/8 + sum(constructionType.mats.R) + 1/25)
     "Wall U-value";
 
   replaceable IDEAS.Buildings.Components.Shading.BuildingShade shaType(
     final L=L,
     final dh=dh,
-    final hWin=hWal) if hasBuildingShade
-  constrainedby IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(
-    final azi=aziInt)
-    "Building shade model"
-    annotation (Placement(transformation(extent={{-72,-8},{-62,12}})),
-      __Dymola_choicesAllMatching=true,
-      Dialog(tab="Advanced",group="Shading"));
+    final hWin=hWal) if hasBuildingShade constrainedby
+    IDEAS.Buildings.Components.Shading.Interfaces.PartialShading(final azi=
+        aziInt) "Building shade model" annotation (
+    Placement(transformation(extent={{-72,-8},{-62,12}})),
+    __Dymola_choicesAllMatching=true,
+    Dialog(tab="Advanced", group="Shading"));
+
+  Airflow.Multizone.Orifice orifice(
+    redeclare package Medium = Media.Air,
+    m=0.68,
+    A=0.0001,
+    CD=0.65) annotation (Placement(transformation(extent={{-2,74},{18,94}})));
+  Fluid.Sources.OutsideAirWindPressure outsideAirWindPressure(redeclare package
+      Medium = Media.Air, nPorts=1)
+    annotation (Placement(transformation(extent={{-58,74},{-38,94}})));
+  Airflow.Multizone.Orifice orifice1(
+    redeclare package Medium = Media.Air,
+    m=0.68,
+    A=0.001,
+    CD=0.65) annotation (Placement(transformation(extent={{-8,38},{12,58}})));
+  Fluid.Sources.Boundary_pT bou(
+    redeclare package Medium = Media.Air,
+    p=99000,
+    T=273.15,
+    nPorts=1) annotation (Placement(transformation(extent={{-62,38},{-42,58}})));
+
 
 
 protected
   IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.ExteriorConvection
     extCon(
-      linearise=linExtCon or sim.linearise,
-      final A=A,
-      final inc=incInt,
-      final azi=aziInt)
+    linearise=linExtCon or sim.linearise,
+    final A=A,
+    final inc=incInt,
+    final azi=aziInt)
     "convective surface heat transimission on the exterior side of the wall"
     annotation (Placement(transformation(extent={{-22,-28},{-42,-8}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorSolarAbsorption
@@ -51,7 +70,7 @@ protected
     "determination of absorbed solar radiation by wall based on incident radiation"
     annotation (Placement(transformation(extent={{-22,-8},{-42,12}})));
   IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.ExteriorHeatRadiation
-    extRad(               linearise=linExtRad or sim.linearise, final A=A)
+    extRad(linearise=linExtRad or sim.linearise, final A=A)
     "determination of radiant heat exchange with the environment and sky"
     annotation (Placement(transformation(extent={{-22,12},{-42,32}})));
   BoundaryConditions.SolarIrradiation.RadSolData radSolData(
@@ -68,16 +87,14 @@ protected
     "Sum of ground and sky diffuse solar irradiation"
     annotation (Placement(transformation(extent={{-54,0},{-46,8}})));
 initial equation
-  QTra_design =U_value*A*(273.15 + 21 - Tdes.y);
+  QTra_design = U_value*A*(273.15 + 21 - Tdes.y);
 
 equation
   if hasBuildingShade then
-    assert(L>0, "Shading is enabled in " + getInstanceName() +
-    ": Provide a value for L, the distance to the shading object, that is larger than 0.");
-    assert(not sim.lineariseDymola, "Shading is enabled in " + getInstanceName() +
-    " but this is not supported when linearising a model.");
-    assert(hWal>0, "Shading is enabled in " + getInstanceName() +
-    ": Provide a value for hWal, the wall height, that is larger than 0.");
+    assert(L > 0, "Shading is enabled in " + getInstanceName() + ": Provide a value for L, the distance to the shading object, that is larger than 0.");
+    assert(not sim.lineariseDymola, "Shading is enabled in " + getInstanceName()
+       + " but this is not supported when linearising a model.");
+    assert(hWal > 0, "Shading is enabled in " + getInstanceName() + ": Provide a value for hWal, the wall height, that is larger than 0.");
   end if;
 
   connect(extCon.port_a, layMul.port_b) annotation (Line(
@@ -92,21 +109,21 @@ equation
       points={{-22,22},{-18,22},{-18,0},{-10,0}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(layMul.iEpsSw_b,solAbs. epsSw) annotation (Line(
+  connect(layMul.iEpsSw_b, solAbs.epsSw) annotation (Line(
       points={{-10,4},{-16,4},{-16,8},{-22,8}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(layMul.iEpsLw_b,extRad. epsLw) annotation (Line(
+  connect(layMul.iEpsLw_b, extRad.epsLw) annotation (Line(
       points={{-10,8},{-16,8},{-16,25.4},{-22,25.4}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.weaBus, propsBusInt.weaBus) annotation (Line(
-      points={{-81.8182,12.3333},{-81.8182,19.91},{56.09,19.91}},
+      points={{-81.8182,12.4615},{-81.8182,19.91},{56.09,19.91}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(radSolData.Tenv,extRad. Tenv) annotation (Line(
-      points={{-81.2727,4},{-70,4},{-70,38},{-22,38},{-22,28}},
+  connect(radSolData.Tenv, extRad.Tenv) annotation (Line(
+      points={{-81.2727,4.76923},{-70,4.76923},{-70,38},{-22,38},{-22,28}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(extCon.Te, propsBusInt.weaBus.Te) annotation (Line(
@@ -114,48 +131,60 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(Tdes.u, propsBusInt.weaBus.Tdes);
-  connect(solDif.y, solAbs.solDif) annotation (Line(points={{-45.6,4},{-42,4}},
-                               color={0,0,127}));
+  connect(solDif.y, solAbs.solDif)
+    annotation (Line(points={{-45.6,4},{-42,4}}, color={0,0,127}));
   connect(radSolData.angInc, shaType.angInc) annotation (Line(
-      points={{-81.2727,2.33333},{-76,2.33333},{-76,-2},{-72,-2}},
+      points={{-81.2727,3.23077},{-76,3.23077},{-76,-2},{-72,-2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angAzi, shaType.angAzi) annotation (Line(
-      points={{-81.2727,-1},{-78,-1},{-78,-6},{-72,-6}},
+      points={{-81.2727,0.153846},{-78,0.153846},{-78,-6},{-72,-6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.angZen, shaType.angZen) annotation (Line(
-      points={{-81.2727,0.666667},{-76,0.666667},{-76,-4},{-72,-4}},
+      points={{-81.2727,1.69231},{-76,1.69231},{-76,-4},{-72,-4}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(radSolData.HDirTil, shaType.HDirTil) annotation (Line(points={{
-          -81.2727,9},{-76,9},{-76,8},{-72,8}},color={0,0,127}));
+          -81.2727,9.38462},{-76,9.38462},{-76,8},{-72,8}},
+                                                   color={0,0,127}));
   connect(radSolData.HSkyDifTil, shaType.HSkyDifTil) annotation (Line(points={{
-          -81.2727,7.33333},{-76,7.33333},{-76,6},{-72,6}},
-                                                     color={0,0,127}));
+          -81.2727,7.84615},{-76,7.84615},{-76,6},{-72,6}},
+                                                   color={0,0,127}));
   connect(radSolData.HGroDifTil, shaType.HGroDifTil) annotation (Line(points={{
-          -81.2727,5.66667},{-76,5.66667},{-76,4},{-72,4}},
-                                                     color={0,0,127}));
+          -81.2727,6.30769},{-76,6.30769},{-76,4},{-72,4}},
+                                                   color={0,0,127}));
   if not hasBuildingShade then
     connect(solDif.u1, radSolData.HSkyDifTil) annotation (Line(points={{-54.8,
-            6.4},{-55.3,6.4},{-55.3,7.33333},{-81.2727,7.33333}},
-                                            color={0,0,127}));
+            6.4},{-55.3,6.4},{-55.3,7.84615},{-81.2727,7.84615}},
+                                                             color={0,0,127}));
     connect(solDif.u2, radSolData.HGroDifTil) annotation (Line(points={{-54.8,
-            1.6},{-55.3,1.6},{-55.3,5.66667},{-81.2727,5.66667}},
-                                            color={0,0,127}));
-    connect(solAbs.solDir, radSolData.HDirTil)
-      annotation (Line(points={{-42,8},{-62,8},{-62,9},{-81.2727,9}},
-                                                   color={0,0,127}));
+            1.6},{-55.3,1.6},{-55.3,6.30769},{-81.2727,6.30769}},
+                                                             color={0,0,127}));
+    connect(solAbs.solDir, radSolData.HDirTil) annotation (Line(points={{-42,8},
+            {-62,8},{-62,9.38462},{-81.2727,9.38462}}, color={0,0,127}));
   end if;
   connect(shaType.HShaDirTil, solAbs.solDir)
-    annotation (Line(points={{-62,8},{-42,8}},           color={0,0,127}));
-  connect(shaType.HShaSkyDifTil, solDif.u1) annotation (Line(points={{-62,6},{
-          -54.8,6},{-54.8,6.4}},   color={0,0,127}));
-  connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-62,4},{
-          -56,4},{-56,1.6},{-54.8,1.6}},   color={0,0,127}));
-  connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(points={{
-          -81.2727,-4.5},{-46,-4.5},{-46,-34},{-16,-34},{-16,-27},{-22,-27}},
-                                                           color={0,0,127}));
+    annotation (Line(points={{-62,8},{-42,8}}, color={0,0,127}));
+  connect(shaType.HShaSkyDifTil, solDif.u1)
+    annotation (Line(points={{-62,6},{-54.8,6},{-54.8,6.4}}, color={0,0,127}));
+  connect(shaType.HShaGroDifTil, solDif.u2) annotation (Line(points={{-62,4},{-56,
+          4},{-56,1.6},{-54.8,1.6}}, color={0,0,127}));
+  connect(radSolData.hForcedConExt, extCon.hForcedConExt) annotation (Line(
+        points={{-81.2727,-3.07692},{-46,-3.07692},{-46,-34},{-16,-34},{-16,-27},
+          {-22,-27}}, color={0,0,127}));
+
+  connect(orifice.port_b, propsBusInt.AFNport_low) annotation (Line(points={{18,
+          84},{36,84},{36,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(outsideAirWindPressure.ports[1], orifice.port_a)
+    annotation (Line(points={{-38,84},{-2,84}}, color={0,127,255}));
+  connect(orifice1.port_b, propsBusInt.AFNport_high) annotation (Line(points={{12,
+          48},{34,48},{34,19.91},{56.09,19.91}}, color={0,127,255}));
+  connect(bou.ports[1], orifice1.port_a)
+    annotation (Line(points={{-42,48},{-8,48}}, color={0,127,255}));
+
+
+
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=true, extent={{-60,-100},{60,100}}),
         graphics={
@@ -218,7 +247,7 @@ equation
           smooth=Smooth.None,
           color={0,0,0},
           thickness=0.5)}),
-    Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-100,-100},{100,
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
     Documentation(info="<html>
 <p>
