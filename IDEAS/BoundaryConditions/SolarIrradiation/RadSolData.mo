@@ -36,6 +36,8 @@ model RadSolData "Selects or generates correct solar data for this surface"
   Modelica.Blocks.Interfaces.RealOutput hForcedConExt
     "Forced flow convection coefficient at an external surface"
     annotation (Placement(transformation(extent={{96,-132},{116,-112}})));
+  Modelica.Blocks.Interfaces.RealOutput Cp "Wind-driven pressure coefficient"
+    annotation (Placement(transformation(extent={{96,-150},{116,-130}})));
 protected
   final parameter Integer numMatches=
     sum( {if     IDEAS.Utilities.Math.Functions.isAngle(incAndAziInBus[i,1],inc)
@@ -163,8 +165,10 @@ equation
   connect(radSol.winSpe, weaBus.Va) annotation (Line(points={{-76,42},{-76,76},
           {100,76},{100,80.05},{100.05,80.05}},                          color=
           {0,0,127}));
+  connect(Cp, solBusDummy.Cp) annotation (Line(points={{106,-140},{-40,-140},{
+          -40,30.1},{-39.9,30.1}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -140},{120,100}})),           Documentation(info="<html>
+            -160},{120,100}})),           Documentation(info="<html>
 <p>
 This model usually takes the appropriate solar data from the bus. 
 If the correct data is not contained by the bus, custom solar data is calculated.
@@ -211,5 +215,6 @@ February 10, 2015 by Filip Jorissen:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(coordinateSystem(extent={{-100,-160},{120,100}})));
 end RadSolData;
