@@ -16,7 +16,14 @@ model CalcCp
 
 equation
 
-  Cp = 1*winSpe;
+  // Need to set G as a parameter.
+  // Need to set incAng as a parameter: surface inc and Vdir.
+
+  Cp = IDEAS.Airflow.Multizone.BaseClasses.windPressureLowRise(
+    Cp0=0.6,
+    G=0,
+    incAng=0.25*Modelica.Constants.pi);
+
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));

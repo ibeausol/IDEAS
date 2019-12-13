@@ -32,12 +32,7 @@ equation
   connect(bus,sim.weaDatBus);
 
   connect(p_link.u, bus.pAtm);
-//   Cp = IDEAS.Airflow.Multizone.BaseClasses.windPressureLowRise(
-//     Cp0=0.6,
-//     G=0,
-//     incAng=0.25*Modelica.Constants.pi);
-//           // Need to set G as a parameter.
-//                                          // Need to set incAng as a parameter: surface inc and Vdir.
+
   Vwind = 0;
   pSurf.u = p_link.y + Cp*0.5*1.2*Vwind^2;  // Need to set Vwind as a parameter.
 
