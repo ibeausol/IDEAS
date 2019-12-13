@@ -9,6 +9,7 @@ model CalcCp
   Modelica.Blocks.Interfaces.RealOutput Cp "Pressure coefficient for surface"
     annotation (Placement(transformation(extent={{100,-4},{120,16}})));
 
+  // WinSpe needed here?
   Modelica.Blocks.Interfaces.RealInput winSpe(unit="m/s") "Wind speed"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
   Modelica.Blocks.Interfaces.RealInput winDir(unit="rad") "Wind direction"
@@ -17,7 +18,7 @@ model CalcCp
 equation
 
   // Need to set G as a parameter.
-  // Need to set incAng as a parameter: surface inc and Vdir.
+  // Need to calculate incAng from surface inc and winDir.
 
   Cp = IDEAS.Airflow.Multizone.BaseClasses.windPressureLowRise(
     Cp0=0.6,
